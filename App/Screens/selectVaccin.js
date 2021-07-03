@@ -3,7 +3,7 @@ import {
     StyleSheet,
     Dimensions,
     View,
-    Image,
+    Alert,
     Text,
     TouchableOpacity,
     ScrollView
@@ -18,13 +18,29 @@ import Calendar from "../components/Calendar";
 import HourCard from "../components/hourCard";
 import TopBar from "../components/topBar"
 const SelectVaccin = ({ navigation }) => {
-    const [hourSelected, setOurSelected] = 
-    useState[{selected : false ,  hour : "10:00PM"}, 
-    {selected : false ,  hour : "10:00PM"},
-    {selected : true ,  hour : "10:00PM"},
-    {selected : false ,  hour : "10:00PM"}]
-    const Hour  =  hourSelected.map((val, key)=>{
-        return  <HourCard key = {key} > {val.hour} </HourCard>
+    const [hourSelected, setOurSelected] =
+        useState([{ selected: false, hour: "10:00PM" },
+        { selected: false, hour: "10:00PM" },
+        { selected: true, hour: "10:00PM" },
+        { selected: false, hour: "11:00PM" }]);
+    const handleChangeSelected = (id) => {
+        const selected = hourSelected;
+        const selectedUpdated = selected.map((val, key) => {
+            if (id === key) {
+                val.selected = true;
+            } else {
+                val.selected = false;
+            }
+
+            return val;
+        });
+        setOurSelected(selectedUpdated);
+    }
+    const Hour = hourSelected.map((val, key) => {
+        return <HourCard
+            changeSelected={id => handleChangeSelected(id)}
+            id={key} key={key} selected={val.selected} >
+            {val.hour}  </HourCard>
     });
     return (
         <View
